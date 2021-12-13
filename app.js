@@ -47,14 +47,8 @@ app.post('/register', (req, res) =>{
         password: req.body.password
     });
 
-    newPerson.save((err)=>{
-        if(err){
-            console.log(err);
-        }
-        else{
-            res.render("secrets");
-        }
-    });
+    newPerson.save();
+    res.render("secrets");
     
 })
 
