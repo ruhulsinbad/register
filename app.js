@@ -1,21 +1,26 @@
 //jshint esversion:6
-
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const encrypt = require('mongoose-encryption');
 
 const app = express();
 
 const port = process.env.PORT || 4000;
 
-const dbURL = "mongodb+srv://sinbad:1561Sinbad3389@cluster0.q94ur.mongodb.net/testPerson?retryWrites=true&w=majority";
 
-mongoose.connect(dbURL);
+mongoose.connect(process.env.DB_URL);
 
-const personSchema = {
+const personSchema = new mongoose.Schema({
     email: String,
     password: String
-}
+}) 
+
+
+personSchema.plugin(encrypt, {secret:process.env.SECRET, encryptedFields:["password"]});
+    
+
 
 const Person = new mongoose.model("Person", personSchema);
 
@@ -71,7 +76,6 @@ app.post('/login', (req, res) =>{
                 }
             }
 
-            res.render("secrets");
         }
     })
 })
