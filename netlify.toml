@@ -1,5 +1,0 @@
-[build]
-
-base = "app.js"
-
-publish = "app.js"
